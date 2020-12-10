@@ -76,14 +76,13 @@ def verifySign(data, publicKey, signature):
     print(message)
 
     ## 수정해야 할 부분
-    rsakey = RSA.importKey(publicKey.encode('ascii')) 
+    rsakey = RSA.importKey(publicKey) 
     signer = PKCS1_v1_5.new(rsakey) 
-    digest = SHA256.new(message.encode()).hexdigest() 
-
+    digest = SHA256.new(message.encode())
     print(publicKey)
     print(signature)
 
-    if signer.verify(digest, signature):
+    if signer.verify(digest, b64decode(signature.encode())):
         return True
     return False
 
@@ -207,14 +206,14 @@ class App(QWidget):
         print(self.APIkeyInput.text()) # API KEY
 
         # Query to ChainCode
-        APIkey = self.APIkeyInput.text()
+        APIkey = self.APIkeyInput.text().strip()
 
         VCList = list()
         DDoList = list()
         
         for pdf in self.pdfList:
-            VCList.append(pdf[1].strip())
-            DDoList.append(pdf[2].strip())
+            VCList.append(pdf[1].split(":")[2].strip())
+            DDoList.append(pdf[2].split(":")[2].strip())
 
         DDoQueryResult = queryToChainCode(APIkey, DDoList, "ddo")['result']
         VCQueryResult = queryToChainCode(APIkey, VCList, "vc")['result']
