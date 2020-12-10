@@ -87,18 +87,6 @@ def verifySign(data, publicKey, signature):
     return False
 
 
-"""
-	# Signature
-	PrivateKey = LoadKey()
-	h 	   = SHA256.new(message.encode())
-	signData   = PKCS1_v1_5.new(PrivateKey).sign(h)
-	signature  = base64.b64encode(signData).decode()
-
-	Proof["Signature"]     = signature
-	Proof["SignatureType"] = "multiHashSig"
-	Proof["HashType"]      = "sha256"
-"""
-
 def restore(settings):
     finfo = QFileInfo(settings.fileName())
     if finfo.exists() and finfo.isFile():
